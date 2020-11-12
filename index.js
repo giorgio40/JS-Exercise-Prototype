@@ -9,14 +9,14 @@
 
 // EXAMPLE SOLUTION CODE:
 function Airplane(name) {
-  this.name = name;
-  this.isFlying = false;
+    this.name = name;
+    this.isFlying = false;
 }
-Airplane.prototype.takeOff = function () {
-  this.isFlying = true;
+Airplane.prototype.takeOff = function() {
+    this.isFlying = true;
 };
-Airplane.prototype.land = function () {
-  this.isFlying = false;
+Airplane.prototype.land = function() {
+    this.isFlying = false;
 };
 
 
@@ -27,22 +27,42 @@ Airplane.prototype.land = function () {
 */
 
 /*
-  TASK 1
-    - Write a Person Constructor that initializes `name` and `age` from arguments.
-    - All instances of Person should initialize with an empty `stomach` array.
-    - Give instances of Person the ability to `.eat("someFood")`:
-        + When eating an edible, it should be pushed into the `stomach`.
-        + The `eat` method should have no effect if there are 10 items in the `stomach`.
-    - Give instances of Person the ability to `.poop()`:
-        + When an instance poops, its `stomach` should empty.
-    - Give instances of Person a method `.toString()`:
-        + It should return a string with `name` and `age`. Example: "Mary, 50"
+TASK 1
+  - Write a Person Constructor that initializes `name` and `age` from arguments.
+  - All instances of Person should initialize with an empty `stomach` array.
+  - Give instances of Person the ability to `.eat("someFood")`:
+      + When eating an edible, it should be pushed into the `stomach`.
+      + The `eat` method should have no effect if there are 10 items in the `stomach`.
+  - Give instances of Person the ability to `.poop()`:
+      + When an instance poops, its `stomach` should empty.
+  - Give instances of Person a method `.toString()`:
+      + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
-
+function Person(name, age) {
+    this.name = name;
+    this.age = age;
+    this.stomach = [];
 }
 
+Person.prototype.eat = function(edible) {
+    if (this.stomach.length < 10) {
+        this.stomach.push(edible);
+    }
+}
+
+Person.prototype.poop = function() {
+    this.stomach = [];
+}
+
+Person.prototype.toString = function() {
+    return `${this.name}, ${this.age}`;
+}
+const personOne = new Person("Robert", 48);
+const personTwo = new Person("Peyton", 58);
+const personThree = new Person("George", 40);
+
+// console.log(personOne)
 /*
   TASK 2
     - Write a Car constructor that initializes `model` and `milesPerGallon` from arguments.
@@ -57,39 +77,56 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
-
+function Car(model, milesPerGallon) {
+    this.model = model;
+    this.milesPerGallon = milesPerGallon;
+    this.tank = 0;
+    this.odometer = 0;
 }
+Car.prototype.fill = function(gallon) {
+        return this.tank = this.tank += gallon;
+    }
+    // Car.prototype.drive = function(miles) {
+    // this.odometer === miles
 
+// let milesDriven = (miles / this.milesPerGallon)
+let carOne = new Car("Mercedes", 25);
+carOne.fill(10)
+    // console.log(carOne.tank)
+carOne.drive(1000)
+    // console.log(carOne)
+    /*
+        TASK 3
+          - Write a Baby constructor subclassing Person.
+          - Besides `name` and `age`, Baby takes a third argument to initialize `favoriteToy`.
+          - Besides the methods on Person.prototype, babies have the ability to `.play()`:
+              + Should return a string "Playing with x", x being the favorite toy.
+      */
+function Baby(name, age, favoriteToy) {
+    Person.call(this, name, age)
+    this.favoriteToy = favoriteToy
+}
+Baby.prototype = Object.create(Person.prototype)
+Baby.prototype.play = function() {
+    return `Playing with ${this.favoriteToy}`;
+}
+let newBaby = new Baby("Parker", 4, "truck");
+// console.log(newBaby)
 /*
-  TASK 3
-    - Write a Baby constructor subclassing Person.
-    - Besides `name` and `age`, Baby takes a third argument to initialize `favoriteToy`.
-    - Besides the methods on Person.prototype, babies have the ability to `.play()`:
-        + Should return a string "Playing with x", x being the favorite toy.
-*/
-function Baby() {
-
-}
-
-/* 
-  TASK 4
-
+TASK 4
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. when a function is in global scope the value of this inside of that function will be window object-global binding-should not use
+  2. implicit binding= refers to the left of the dot.
+  3. New Binding - refers to the specific instance of the object that is created and return by Const. Function.
+  4. explicit - is invoking immediately.
 */
-
-
 ///////// END OF CHALLENGE /////////
 ///////// END OF CHALLENGE /////////
 ///////// END OF CHALLENGE /////////
 if (typeof exports !== 'undefined') {
-  module.exports = module.exports || {}
-  if (Airplane) { module.exports.Airplane = Airplane }
-  if (Person) { module.exports.Person = Person }
-  if (Car) { module.exports.Car = Car }
-  if (Baby) { module.exports.Baby = Baby }
+    module.exports = module.exports || {}
+    if (Airplane) { module.exports.Airplane = Airplane }
+    if (Person) { module.exports.Person = Person }
+    if (Car) { module.exports.Car = Car }
+    if (Baby) { module.exports.Baby = Baby }
 }
